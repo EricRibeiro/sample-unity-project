@@ -55,6 +55,6 @@ workflows:
    create-unity-activation-file:
       jobs:
          - my-job:
-            runner: "IOS_AUTO_DEV_SIGNING"
+            runner: "IOS_PRIVATE_SIGNING"
 
 # VS Code Extension Version: 1.5.1
