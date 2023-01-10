@@ -1,9 +1,60 @@
 version: 2.1
 
-orbs:
-  unity: game-ci/unity@0.2
+jobs:
+   my-job:
+      parameters:
+         runner:
+            description: >
+               The operation to perform the fusing.
+            type: enum
+            enum:
+               - "ANDROID_AUTO_SIGNING"
+               - "ANDROID_PRIVATE_SIGNING"
+               - "ANDROID_AUTO_DEV_SIGNING"
+               - "IOS_AUTO_SIGNING"
+               - "IOS_PRIVATE_SIGNING"
+               - "IOS_AUTO_DEV_SIGNING"
+
+      docker:
+         - image: cimg/base:current
+
+      steps:
+         - run: echo "Hello 👋"
+         - when:
+            condition:
+               equal: [ "ANDROID_PRIVATE_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "ANDROID_PRIVATE_SIGNING"
+         - when:
+            condition:
+               equal: [ "ANDROID_AUTO_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "ANDROID_AUTO_SIGNING"
+         - when:
+            condition:
+               equal: [ "ANDROID_AUTO_DEV_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "ANDROID_AUTO_DEV_SIGNING"
+         - when:
+            condition:
+               equal: [ "IOS_AUTO_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "IOS_AUTO_SIGNING"
+         - when:
+            condition:
+               equal: [ "IOS_PRIVATE_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "IOS_PRIVATE_SIGNING"
+         - when:
+            condition:
+               equal: [ "IOS_AUTO_DEV_SIGNING", <<parameters.runner>> ]
+            steps:
+               - run: echo "IOS_AUTO_DEV_SIGNING"
 
 workflows:
    create-unity-activation-file:
       jobs:
-         - unity/create-activation-file
+         - my-job:
+            runner: "IOS_AUTO_DEV_SIGNING"
+
+# VS Code Extension Version: 1.5.1
